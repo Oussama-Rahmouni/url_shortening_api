@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import hpp from 'hpp';
 // import csurf from 'csurf';
@@ -17,6 +16,7 @@ dotenv.config()
 
 const app = express()
 
+app.use(express.json());
 // security middlewares
 app.use(helmet())
 app.use(cors({
@@ -32,7 +32,6 @@ app.use(rateLimit({
 // app.use(cookieParser());
 // app.use(csurf({cookie:true}))
 app.use(hpp());
-app.use(bodyParser.json())
 app.use(compression());
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))

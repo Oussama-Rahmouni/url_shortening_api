@@ -7,18 +7,20 @@ class ShortenUrlController{
         const {baseUrl} = req.body;
         try {
             const shortned_url = await ShortenUrlService.makeShorter(baseUrl)
-            res.status(201).json({shortned_url, message:'success'})
+            res.status(201).json({message:`${process.env.PUBLIC_URL}/${shortned_url}`})
         } catch (error) {
             next(error)
         }
     }
 
-    static async  handleGet(req:Request,res:Response,next:NextFunction){
-        const {shortned_url} =  req.body;
+    static async  handleGet(req:Request,res:Response,next:NextFunction): Promise<void>{
+        const {shortnedId} =  req.body;
         try {
-            const baseUrl = await ShortenUrlService.getBase(shortned_url)
-            res.status(200).json({baseUrl, message:'success'})
-            
+            const urlDoc = await ShortenUrlService.getBase(shortnedId)
+            if(!urlDoc){
+                return ;
+            }
+            res.redirect(urlDoc.baseUrl)
         } catch (error) {
             next(error)
         }

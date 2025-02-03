@@ -1,10 +1,10 @@
 import {Router} from 'express';
 import ShortenUrlController from '@/controllers/index' 
-import {validate} from '@/middleware/index';
+import validatePost from '@/middleware';
 
 const router = Router();
 
-router.post('/shorten',validate, ShortenUrlController.handlePost)
-router.use('/:shortened_id',validate, ShortenUrlController.handleGet)
+router.post('/shorten', validatePost, ShortenUrlController.handlePost)
+router.get('/:shortened_id',  ShortenUrlController.handleGet)
 
 export default router;
