@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 
 const isValidUrl = (url: string): boolean => {
-  const regex = /^(https?:\/\/)?([a-z0-9]+[.]){1,}[a-z]{2,6}(\/\S*)?$/i;
+  const regex = /^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,7}(\/[^\s]*)?$/i;
   return regex.test(url);
 };
 
+
 const validatePost = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
-    console.log("haw body", req.body.baseUrl)
     const {baseUrl} = req.body;
     if (!baseUrl) {
       res.status(400).json({message:"url no there"})
@@ -15,7 +15,7 @@ const validatePost = async (req: Request, res: Response, next: NextFunction):Pro
     }
 
     if (!isValidUrl(baseUrl)) {
-      res.status(400).json({message:"url no there"})
+      res.status(400).json({message:"url not verified"})
       return; 
 
     }

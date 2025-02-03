@@ -17,10 +17,11 @@ dotenv.config()
 const app = express()
 
 app.use(express.json());
+
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin:process.env.CLIENT_URL,
+    origin:"*",
     methods:["POST", "GET", "OPTIONS"],
     allowedHeaders:'Content-Type, Authorizaton'
 }))

@@ -5,6 +5,6 @@ import validatePost from '@/middleware';
 const router = Router();
 
 router.post('/shorten', validatePost, ShortenUrlController.handlePost)
-router.get('/:shortened_id',  ShortenUrlController.handleGet)
+router.get('/:shortnedId',  ShortenUrlController.handleGet)
 
 export default router;
