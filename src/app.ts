@@ -21,7 +21,7 @@ app.use(express.json());
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin:"*",
+    origin:process.env.CLIENT_URL,
     methods:["POST", "GET", "OPTIONS"],
     allowedHeaders:'Content-Type, Authorizaton'
 }))

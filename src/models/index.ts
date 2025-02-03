@@ -3,6 +3,7 @@ import { model, Document, Schema} from 'mongoose';
 interface SUrl extends Document {
     baseUrl:string,
     shortnedId:string;
+    expiration?: Date;
 }
 
 const urlSchema = new Schema<SUrl>({
@@ -15,7 +16,11 @@ const urlSchema = new Schema<SUrl>({
         type:String,
         required:true,
         unique:true,
-    }
+    },
+    expiration: {
+        type: Date,
+        default: null, 
+      },
 })
 
 const Url = model<SUrl>('url', urlSchema);
