@@ -1,7 +1,7 @@
 import 'module-alias/register';
 import app from "@/app";
 import dotenv from 'dotenv';
-import connection from './config/db';
+import connection from './config/db'; //DATABASE connection
 
 dotenv.config()
 

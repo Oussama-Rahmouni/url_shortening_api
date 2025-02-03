@@ -1,15 +1,17 @@
 import {Request, Response, NextFunction} from 'express';
-import ShortenUrlService from '@/services/index';
-import csvParser from 'csv-parser';
-import fs from 'fs';
+import ShortenUrlService from '@/services/index'; // Service Methods and Logic
+import csvParser from 'csv-parser'; // CSV Parser
+import fs from 'fs'; //File system
 
 
 
 class ShortenUrlController{
 
+      // Handle POST request to shorten a URL
     static async  handlePost(req:Request,res:Response,next:NextFunction){
         const {baseUrl, expiration} = req.body;
         try {
+            // Check if the URL already exists in the database
             const verifyExist = await ShortenUrlService.verifyBase(baseUrl)
             if(verifyExist?.baseUrl){
                 const shortnedId = verifyExist.shortnedId;
@@ -17,6 +19,7 @@ class ShortenUrlController{
                 res.status(200).json({message:"url already exist , would you like to see it ?", shortnedId,expiration, special:true})
                 return; 
             }
+            // Shorten the URL and return the shortened ID
             const newUrl = await ShortenUrlService.makeShorter(baseUrl, expiration)
             console.log("hay result", newUrl)
             const shortnedId = newUrl?.shortnedId;
@@ -27,6 +30,7 @@ class ShortenUrlController{
         }
     }
 
+      // Handle GET request to get the original URL by shortened ID
     static async  handleGet(req:Request,res:Response,next:NextFunction): Promise<void>{
         const {shortnedId} =  req.params;
         try {
@@ -43,6 +47,7 @@ class ShortenUrlController{
         }
     }
 
+      // Handle CSV file upload and bulk URL shortening
     static async bulkUpload(req: Request, res: Response, next: NextFunction): Promise<void> {
         const { expiration } = req.body;
         const filePath = req.file?.path;
@@ -63,6 +68,7 @@ class ShortenUrlController{
                     // Process each URL in the CSV to shorten it
                     const shortenedUrls = await Promise.all(
                         results.map(async (row) => {
+                            // Verify if some of the urls already been shorted
                             const base = await ShortenUrlService.verifyBase(row.baseUrl)
                             if(base){
                                 return { baseUrl: row.baseUrl, shortenedId: base.shortnedId, expiration:base.expiration }
@@ -71,7 +77,6 @@ class ShortenUrlController{
                             return { baseUrl: row.baseUrl, shortenedId:shortenedId?.shortnedId, expiration:shortenedId?.expiration };
                         })
                     );
-                    console.log("this are the shortnerd", shortenedUrls)
                     res.status(201).json({ shortenedUrls });
                 } catch (error) {
                     res.status(500).json({ message: 'Error processing bulk URLs', error });

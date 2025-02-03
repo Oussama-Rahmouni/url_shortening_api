@@ -1,20 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 
+// Function to check if a URL is valid
 const isValidUrl = (url: string): boolean => {
   const regex = /^(https?:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\S*)$/i;
   return regex.test(url);
 };
 
+// Middleware to validate POST requests for URL shortening
 const validatePost = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
     const {baseUrl} = req.body;
     if (!baseUrl) {
-      res.status(400).json({message:"url no there"})
+      res.status(400).json({message:"no Url recieved!"})
       return; 
     }
 
     if (!isValidUrl(baseUrl)) {
-      res.status(400).json({message:"url not verified"})
+      res.status(400).json({message:"URL not valid"})
       return; 
 
     }
@@ -25,6 +27,7 @@ const validatePost = async (req: Request, res: Response, next: NextFunction):Pro
   }
 };
 
+// Middleware to validate GET requests for shortened URLs
 const validateGet = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
     const {shortnedId} = req.params;

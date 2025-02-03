@@ -22,6 +22,7 @@ class ShortenUrlService{
     }
   }
 
+    // Create a new shortened URL and store it in the database
     static async makeShorter(baseUrl:string, duration:any){
         const shortnedId = nanoid(6);
         const expiration = this.calculateExpiration(duration); 
@@ -35,6 +36,7 @@ class ShortenUrlService{
         }
     }
 
+      // Retrieve the original URL based on the shortened ID
     static async getBase(shortnedId:string){
         try {
             const urlDoc = await Url.findOne({shortnedId})
@@ -44,6 +46,7 @@ class ShortenUrlService{
         }
     }
 
+      // Check if a base URL already exists in the database
     static async verifyBase(baseUrl:string){
         try {
             const base = await Url.findOne({baseUrl})

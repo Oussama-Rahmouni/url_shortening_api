@@ -1,15 +1,14 @@
 import express, {Request, Response, NextFunction} from 'express';
-import morgan from 'morgan';
-import helmet from 'helmet';
+import morgan from 'morgan'; // loggin middleware in development mode
+import helmet from 'helmet'; //secure http headers
 import cors from 'cors';
 import dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit';
-import compression from 'compression';
-import hpp from 'hpp';
+import rateLimit from 'express-rate-limit'; //Rate limiting middleware 
+import compression from 'compression';  //compression  for responses 
+import hpp from 'hpp'; //prevent http parametre from pollution
 
-
-import {globalErrorHandler} from '@/utils/errorHandler';
-import routes from '@/routes/index'
+import {globalErrorHandler} from '@/utils/errorHandler'; //global error handler
+import routes from '@/routes/index' //routes
 
 dotenv.config()
 
@@ -35,6 +34,8 @@ app.use(compression());
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
+
+
 
 app.use('/api', routes)
 app.use(globalErrorHandler)
