@@ -6,8 +6,7 @@ import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import compression from 'compression';
 import hpp from 'hpp';
-// import csurf from 'csurf';
-// import coockieParser from 'cookie-parser';
+
 
 import {globalErrorHandler} from '@/utils/errorHandler';
 import routes from '@/routes/index'
@@ -30,8 +29,7 @@ app.use(rateLimit({
     max:100,
 }))
 
-// app.use(cookieParser());
-// app.use(csurf({cookie:true}))
+
 app.use(hpp());
 app.use(compression());
 if(process.env.NODE_ENV === 'development'){

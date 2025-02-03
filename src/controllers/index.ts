@@ -65,13 +65,13 @@ class ShortenUrlController{
                         results.map(async (row) => {
                             const base = await ShortenUrlService.verifyBase(row.baseUrl)
                             if(base){
-                                return { baseUrl: row.baseUrl, shortenedId: base.shortnedId }
+                                return { baseUrl: row.baseUrl, shortenedId: base.shortnedId, expiration:base.expiration }
                             }
                             const shortenedId = await ShortenUrlService.makeShorter(row.baseUrl, expiration);
-                            console.log("shortend", shortenedId)
-                            return { baseUrl: row.baseUrl, shortenedId };
+                            return { baseUrl: row.baseUrl, shortenedId:shortenedId?.shortnedId, expiration:shortenedId?.expiration };
                         })
                     );
+                    console.log("this are the shortnerd", shortenedUrls)
                     res.status(201).json({ shortenedUrls });
                 } catch (error) {
                     res.status(500).json({ message: 'Error processing bulk URLs', error });

@@ -2,6 +2,7 @@ import {handleError} from '@/utils/errorHandler';
 import Url from '@/models/index';
 import {nanoid} from 'nanoid';
 
+
 class ShortenUrlService{
 
     // Utility function to calculate expiration date

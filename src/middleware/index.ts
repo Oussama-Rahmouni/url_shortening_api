@@ -27,20 +27,17 @@ const validatePost = async (req: Request, res: Response, next: NextFunction):Pro
 
 const validateGet = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
-    const {shortenedId} = req.params;
-
-    if (!shortenedId || shortenedId.length === 0) {
-      res.status(400).json({ message: 'Shortened ID can only contain alphanumeric characters.' });
+    const {shortnedId} = req.params;
+    console.log(req.params)
+    console.log(shortnedId)
+    if (!shortnedId || shortnedId.length === 0) {
+      res.status(400).json({ message: 'Shortened ID can only contain alphanumeric character sfd.' });
       return;
     }
 
-    const validIdRegex = /^[a-zA-Z0-9]+$/;
-      if (!validIdRegex.test(shortenedId)) {
-        res.status(400).json({ message: 'Shortened ID can only contain alphanumeric characters.' });
-        return; 
-    }
-    console.log("reached here", validIdRegex.test(shortenedId))
-    if (shortenedId.length !== 6) {
+
+    // const strShorten = 
+    if (shortnedId.length !== 6) {
       res.status(400).json({message:"Shortned ID do not exist"})
       return; 
     }
