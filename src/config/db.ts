@@ -1,20 +1,20 @@
-import mysql from 'mysql2/promise';
+import mongoose from 'mongoose';
+import { handleError } from '@/utils/errorHandler';
+import dotenv from 'dotenv';
 
-const connect = new mysql2.CreateConnecton({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    name:process.env.DB_NAME,
-    pass:process.env.DB_PASS
-})
+dotenv.config()
 
-async function testConnection(){
+const MONGO_URI = process.env.DB_CONNECTION || '';
+
+const connection = async () => {
     try {
-        
-        await connect.connect()
-        console.log("db connected succeffully"))
+        await mongoose.connect(MONGO_URI);
+        console.log("db connected!")
     } catch (error) {
-        console.log("db connection failed", e.message))
+        console.log("db failed to connect!")
+        handleError('db faild to connect', 500, error)
+        process.exit(1);
     }
-}
+} 
 
-export default connect;
+export default connection;

@@ -5,6 +5,10 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
+    "paths":{
+      "@/*":["./src/*"]
+    },
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

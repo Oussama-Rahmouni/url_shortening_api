@@ -1,23 +1,20 @@
-import query from '@/config/query';
-import {handleError} from '@/utils/CustomError';
+import {handleError} from '@/utils/errorHandler';
 
 class ShortenUrlService{
-    static async function makeShorter(baseUrl){
+    static async makeShorter(baseUrl:string){
         try {
-            const shortned = //logic to do the shorting
-            const shortnedUrl = await query(`INSERT INTO urls (baseUrl) VALUES (?)`, [baseUrl])
-            return shortned ;
+            // const shortned = //logic to do the shorting
+            // return shortned ;
         } catch (error) {
-            handleError("error in hanlding post shortner logic"!, 500, error.data)
+            handleError("error in hanlding post shortner logic"!, 500, error)
         }
     }
 
-    static async function getBase(shortned_url){
+    static async getBase(shortned_url:string){
         try {
-            const baseUrl = await query(`SELECT * from urls WHERE id = (?)`,[id])
-            return baseUrl;
+            // return baseUrl;
         } catch (error) {
-            handleError("error in hanlding post shortner logic"!, 500, error.data)
+            handleError("error in hanlding post shortner logic"!, 500, error)
         }
     }
 }

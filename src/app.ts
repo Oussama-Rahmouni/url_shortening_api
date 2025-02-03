@@ -1,32 +1,42 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import bodyParser from 'body-parser';
+import compression from 'compression';
+import hpp from 'hpp';
+// import csurf from 'csurf';
+// import coockieParser from 'cookie-parser';
 
-import globalErrorHandler from '@/utils/globalErrorHandler.ts';
-import routes from '@/routes/index.ts'
+import {globalErrorHandler} from '@/utils/errorHandler';
+import routes from '@/routes/index'
 
 dotenv.config()
 
 const app = express()
 
+// security middlewares
+app.use(helmet())
 app.use(cors({
     origin:process.env.CLIENT_URL,
-    memthods:["POST", "GET", "OPTIONS"],
+    methods:["POST", "GET", "OPTIONS"],
     allowedHeaders:'Content-Type, Authorizaton'
 }))
-
-app.use(bodyParser.json())
 app.use(rateLimit({
     windowMs:20*60*1000,
     max:100,
 }))
 
-app.use(helmet())
-app.use(morgan('dev'))
+// app.use(cookieParser());
+// app.use(csurf({cookie:true}))
+app.use(hpp());
+app.use(bodyParser.json())
+app.use(compression());
+if(process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'))
+}
 
 app.use('/api', routes)
 app.use(globalErrorHandler)
