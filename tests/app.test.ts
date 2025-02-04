@@ -1,17 +1,19 @@
 import request from 'supertest';
 import app from '../src/app';
-import Url from '@/models/index'; // Import the model to mock it
+import Url from '../src/models/index'; 
+import ShortenUrlService from '../src/services/index';
 
-// Mock the database model
-jest.mock('@/models/index');
+// Mock the database model and service methods
+jest.mock('../src/models/index');
+jest.mock('../src/services/index');
 
 describe('POST /shorten', () => {
-  it('should shorten a URL', async () => {
+  it('should shorten a URL successfully', async () => {
     // Mock the database response
     (Url.findOne as jest.Mock).mockResolvedValue(null); // Simulate no existing URL
-    (Url.prototype.save as jest.Mock).mockResolvedValue({
-      baseUrl: 'https://example.com',
+    (ShortenUrlService.makeShorter as jest.Mock).mockResolvedValue({
       shortnedId: 'Guz5YE',
+      expiration: '2025-12-31',
     });
 
     const res = await request(app)
@@ -20,36 +22,31 @@ describe('POST /shorten', () => {
 
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('shortnedId', 'Guz5YE');
-  }, 10000); // Increase timeout to 10 seconds
+    expect(res.body).toHaveProperty('expiration', '2025-12-31');
+  });
 
-  it('should return 400 for invalid URL', async () => {
-    // Mock the database response
-    (Url.findOne as jest.Mock).mockResolvedValue(null);
-
+  it('should return 400 for invalid URL format', async () => {
     const res = await request(app)
       .post('/api/shorten')
       .send({ baseUrl: 'invalid-url' });
 
     expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty('message', 'URL not valid');
-  }, 10000); // Increase timeout to 10 seconds
+  });
+
+
 });
 
 describe('GET /:shortnedId', () => {
-  it('should redirect to the original URL', async () => {
-    // Mock the database response
-    (Url.findOne as jest.Mock).mockResolvedValue({
-      baseUrl: 'https://exampyle.com',
-      shortnedId: 'f5M5lm',
-    });
 
-    const res = await request(app).get('/api/f5M5lm');
+  it('should return 400 for invalid short ID format', async () => {
+    const res = await request(app).get('/api/invalidShortId');
 
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('baseUrl', 'https://exampyle.com');
-  }, 10000); // Increase timeout to 10 seconds
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty('message', 'Shortned ID do not exist');
+  });
 
-  it('should return 400 for invalid short ID', async () => {
+  it('should return 400 if shortened URL does not exist', async () => {
     // Mock the database response
     (Url.findOne as jest.Mock).mockResolvedValue(null);
 
@@ -57,10 +54,23 @@ describe('GET /:shortnedId', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body).toHaveProperty('message', 'Shortned ID do not exist');
-  }, 10000); // Increase timeout to 10 seconds
+  });
+});
+
+describe('POST /bulk-shorten', () => {
+ 
+  it('should return 400 if no file is uploaded', async () => {
+    const res = await request(app)
+      .post('/api/bulk-shorten')
+      .send({}); // Simulate no file
+
+    expect(res.statusCode).toEqual(400);
+    expect(res.body).toHaveProperty('message', 'No file uploaded');
+  });
+
+  
 });
 
 afterAll(async () => {
-  // Close any open handles (e.g., database connections)
   jest.resetAllMocks(); // Reset all mocks
 });

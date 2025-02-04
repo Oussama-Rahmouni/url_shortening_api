@@ -1,5 +1,6 @@
 import {Request, Response, NextFunction} from 'express';
 
+// Custom error handler Class
 class CustomError extends Error{
     public status:number;
     public data:any;
@@ -11,6 +12,8 @@ class CustomError extends Error{
     }
 }
 
+
+// Custom error handler Class
 const globalErrorHandler = (err:CustomError, req:Request, res:Response, next:NextFunction)=>{
     const status = err.status || 500;
     const message = err.message || 'problem within the server!';

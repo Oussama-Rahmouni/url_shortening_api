@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import ShortenUrlController from '../controllers/index' 
-import {upload} from '../middleware/upload' 
-import {validatePost, validateGet} from '../middleware/index';
+import {upload} from '../middleware/upload'  //upload middleware
+import {validatePost, validateGet} from '../middleware/index'; //validation middlewares
 
 const router = Router();
 

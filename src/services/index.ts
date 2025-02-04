@@ -1,6 +1,6 @@
 import {handleError} from '../utils/errorHandler';
 import Url from '../models/index';
-import {nanoid} from 'nanoid';
+import {nanoid} from 'nanoid';  //package to make the urls shorter
 
 
 class ShortenUrlService{

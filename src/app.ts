@@ -31,16 +31,19 @@ app.use(rateLimit({
     windowMs:20*60*1000,
     max:100,
 }))
-
 app.use(hpp());
+
+//production loggin
 app.use(compression());
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
 }
 
 
-
+// routes
 app.use('/api', routes)
+
+// glbal error handling
 app.use(globalErrorHandler)
 
 export default app;

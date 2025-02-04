@@ -38,7 +38,7 @@ const validateGet = async (req: Request, res: Response, next: NextFunction):Prom
     }
 
 
-    // const strShorten = 
+    // validate length
     if (shortnedId.length !== 6) {
       res.status(400).json({message:"Shortned ID do not exist"})
       return; 

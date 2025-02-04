@@ -3,7 +3,7 @@ export default {
   testEnvironment: 'node',
   "testTimeout":10000,
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1', // Maps @/ to src/
+    '^@/(.*)$': '<rootDir>/$1',
   },
   transform: {
     '^.+\\.ts$': 'ts-jest', // Use ts-jest for TypeScript files
