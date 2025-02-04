@@ -31,8 +31,7 @@ const validatePost = async (req: Request, res: Response, next: NextFunction):Pro
 const validateGet = async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
     const {shortnedId} = req.params;
-    console.log(req.params)
-    console.log(shortnedId)
+
     if (!shortnedId || shortnedId.length === 0) {
       res.status(400).json({ message: 'Shortened ID can only contain alphanumeric character sfd.' });
       return;

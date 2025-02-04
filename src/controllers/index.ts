@@ -4,45 +4,43 @@ import csvParser from 'csv-parser'; // CSV Parser
 import fs from 'fs'; //File system
 
 
+class ShortenUrlController {
+    
+  static async handlePost(req: Request, res: Response, next: NextFunction) {
+    const { baseUrl, expiration } = req.body;
+    try {
+      // Check if the URL already exists in the database
+      const verifyExist = await ShortenUrlService.verifyBase(baseUrl);
+      if (verifyExist?.baseUrl) {
+        const shortnedId = verifyExist.shortnedId;
+        const expiration = verifyExist.expiration;
+        res.status(200).json({ message: "URL already exists. Would you like to see it?", shortnedId, expiration, special: true });
+        return;
+      }
 
-class ShortenUrlController{
-
-      // Handle POST request to shorten a URL
-    static async  handlePost(req:Request,res:Response,next:NextFunction){
-        const {baseUrl, expiration} = req.body;
-        try {
-            // Check if the URL already exists in the database
-            const verifyExist = await ShortenUrlService.verifyBase(baseUrl)
-            if(verifyExist?.baseUrl){
-                const shortnedId = verifyExist.shortnedId;
-                const expiration = verifyExist.expiration;
-                res.status(200).json({message:"url already exist , would you like to see it ?", shortnedId,expiration, special:true})
-                return; 
-            }
-            // Shorten the URL and return the shortened ID
-            const newUrl = await ShortenUrlService.makeShorter(baseUrl, expiration)
-            console.log("hay result", newUrl)
-            const shortnedId = newUrl?.shortnedId;
-            const edxpiration = newUrl?.expiration;
-            res.status(201).json({shortnedId,expiration:edxpiration})
-        } catch (error) {
-            next(error)
-        }
+      // Shorten the URL and return the shortened ID
+      const newUrl = await ShortenUrlService.makeShorter(baseUrl, expiration);
+      const shortnedId = newUrl?.shortnedId;
+      const edxpiration = newUrl?.expiration;
+      res.status(201).json({ shortnedId, expiration: edxpiration });
+    } catch (error) {
+      next(error);
     }
+  }
 
       // Handle GET request to get the original URL by shortened ID
     static async  handleGet(req:Request,res:Response,next:NextFunction): Promise<void>{
         const {shortnedId} =  req.params;
         try {
             const urlDoc = await ShortenUrlService.getBase(shortnedId)
-            if(!urlDoc){
-                res.status(204).json({message:"There is no URL for this ID"})
+            console.log("haw l url doc", urlDoc)
+            if(!urlDoc || urlDoc === undefined){
+                res.status(400).json({message:"Shortned ID do not exist"})
                 return ;
             }
             const baseUrl = urlDoc.baseUrl;
             res.status(200).json({baseUrl})
         } catch (error) {
-            console.log("haw leror", error)
             next(error)
         }
     }
