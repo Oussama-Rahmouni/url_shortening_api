@@ -19,15 +19,18 @@ app.use(express.json());
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin:process.env.CLIENT_URL,
-    methods:["POST", "GET", "OPTIONS"],
-    allowedHeaders:'Content-Type, Authorizaton'
+    origin: "*",
+    credentials: true,
+    methods:["POST", "GET" ,"OPTIONS"],
+    allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With'],
+    preflightContinue:false,
+    optionsSuccessStatus:200,
 }))
 app.use(rateLimit({
     windowMs:20*60*1000,
     max:100,
 }))
-
+app.options("*", cors());
 
 app.use(hpp());
 app.use(compression());
