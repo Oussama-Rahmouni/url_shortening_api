@@ -23,22 +23,29 @@ jobs:
         with:
           node-version: '23.0.5'  # Set the Node.js version you're using
 
-      # Step 3: Install dependencies
+       # Step 3: Install dependencies
+      - name: Install vercel CLI
+        run: npm install --global vercel
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: npm install
-
-      # Step 4: Run tests
-      - name: Run tests
+      
+        # Step 5: Run Tests
+      - name: Run Tests
         run: npm test
 
-      # Step 5: Build the app
-      - name: Build the app
-        run: npm run build
+      # Setp 5 , use vercel  
+      - name: Pull vercel environment information
+        run: vercel pull --yes --environment=production --token=${{secrets.VERCEL_TOKEN}}
 
-      # Step 6: Deploy to Vercel
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v20
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}  # Add your Vercel token in GitHub Secrets
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}  # Add your Vercel Org ID in GitHub Secrets
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}  # Add your Vercel Project ID in GitHub Secrets
+      # Step 6: Build Project artiface
+      - name: Build Project artifact
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      # Step 6: deploy Project artiface
+      - name: deploy Project artifact
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+        env:
+          DB_URL: ${{ secrets.DB_CONNECTION }}
