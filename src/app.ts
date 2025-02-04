@@ -31,7 +31,6 @@ app.use(rateLimit({
     windowMs:20*60*1000,
     max:100,
 }))
-app.options("*", cors());
 
 app.use(hpp());
 app.use(compression());
