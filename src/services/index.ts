@@ -1,5 +1,5 @@
-import {handleError} from '@/utils/errorHandler';
-import Url from '@/models/index';
+import {handleError} from '../utils/errorHandler';
+import Url from '../models/index';
 import {nanoid} from 'nanoid';
 
 

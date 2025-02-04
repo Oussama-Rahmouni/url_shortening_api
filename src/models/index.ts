@@ -3,7 +3,7 @@ import { model, Document, Schema} from 'mongoose';
 interface SUrl extends Document {
     baseUrl:string,
     shortnedId:string;
-    expiration?: Date;
+    expiration?: Date ;
 }
 
 const urlSchema = new Schema<SUrl>({

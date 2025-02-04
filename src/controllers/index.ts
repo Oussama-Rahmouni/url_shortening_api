@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from 'express';
-import ShortenUrlService from '@/services/index'; // Service Methods and Logic
+import ShortenUrlService from '../services/index'; // Service Methods and Logic
 import csvParser from 'csv-parser'; // CSV Parser
 import fs from 'fs'; //File system
 

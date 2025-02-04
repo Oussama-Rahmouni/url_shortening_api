@@ -7,8 +7,8 @@ import rateLimit from 'express-rate-limit'; //Rate limiting middleware
 import compression from 'compression';  //compression  for responses 
 import hpp from 'hpp'; //prevent http parametre from pollution
 
-import {globalErrorHandler} from '@/utils/errorHandler'; //global error handler
-import routes from '@/routes/index' //routes
+import {globalErrorHandler} from './utils/errorHandler'; //global error handler
+import routes from './routes/index' //routes
 
 dotenv.config()
 

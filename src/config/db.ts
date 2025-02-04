@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { handleError } from '@/utils/errorHandler';
+import { handleError } from '../utils/errorHandler';
 import dotenv from 'dotenv';
 
 const MAX_RETRIES = 3;
