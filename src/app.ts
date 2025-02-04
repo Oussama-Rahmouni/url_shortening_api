@@ -10,16 +10,18 @@ import hpp from 'hpp'; //prevent http parametre from pollution
 import {globalErrorHandler} from './utils/errorHandler'; //global error handler
 import routes from './routes/index' //routes
 
+
 dotenv.config()
 
 const app = express()
 
 app.use(express.json());
+const allowedUrls =[""]
 
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin: "*",
+    origin:"shorten-url-ui.vercel.app" ,
     credentials: true,
     methods:["POST", "GET" ,"OPTIONS"],
     allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With'],
