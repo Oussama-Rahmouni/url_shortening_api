@@ -1,50 +1,40 @@
 # URL Shortener API
 
+This is a URL Shortener API that allows users to shorten URLs, retrieve original URLs using shortened IDs, and bulk shorten URLs via CSV file uploads. The API also supports setting expiration times for the shortened URLs and validation on input URLs. 
+
 ## Features
-Shorten a Single URL: Convert long URLs into shortened IDs.
 
-Retrieve Original URL: Fetch the original URL using the shortened ID.
+- **Shorten a Single URL**
+- **Retrieve Original URL**
+- **Bulk URL Shortening**
+- **Expiration Dates**
+- **URL Validation**
+- **Custom Error Handling**
+- **CI/CD Integration**
 
-Bulk URL Shortening: Upload a CSV file to shorten multiple URLs at once.
+## API Endpoints
 
-Expiration Dates: Set expiration times for shortened URLs (24h, 48h, 7d).
+- **POST `/shorten`**: Shortens a single URL.
+- **GET `/:{shortenedId}`**: Retrieves the original URL from a shortened ID.
+- **POST `/bulk-shorten`**: Upload a CSV file to bulk shorten URLs.
 
-Validation: Ensure URLs are valid and HTTPS (with warnings for HTTP).
+## Project Structure
 
-Error Handling: Custom error handling for better debugging and user feedback.
+This project follows a clean and scalable structure, with the following main folders:
 
-CI/CD Integration: Automated testing, linting, and deployment using GitHub Actions.
+- **`src/`**: Contains the source code of the application.
+  - **`controllers/`**: Handles incoming HTTP requests and interacts with services.
+  - **`middleware/`**: Custom middleware for validation, authentication, etc.
+  - **`models/`**: Mongoose models for MongoDB schemas.
+  - **`routes/`**: API route definitions.
+  - **`config/`**: Handles database connection, with multple essays.
+  - **`services/`**: Business logic for URL shortening and data handling.
+  - **`utils/`**: Helper functions and utilities.
+  - **`server.ts`**: Main entry point to start the Express server.
+  - **`app.ts`**: Main insance of express .
 
-- Shorten a single URL (`POST /shorten`)
-- Retrieve the original URL from a shortened ID (`GET /{shortenedId}`)
-- Bulk URL shortening via CSV file upload (`POST /bulk-shorten`)
+- **`dist/`**: Compiled JavaScript files after TypeScript transpiling (generated after running the build script).
+- **`tests/`**: Contains unit and integration tests to validate the application’s behavior.
+- **`package.json`**: Lists the dependencies, scripts, and other configurations.
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/url-shortener-api.git
-   cd url-shortener-api
-
-2. Install packages 
-    ```bash
-n   pm install
-
-3. DB CONNECTION
-    ```bash
-        DB_CONNECTION=the db url
-        CLIENT_URL=http://localhost:3000
-        PORT=3000
-
-
-npm run build 
-
-npm run dev
-
-
-CI/CD
-This project is integrated with GitHub Actions for continuous integration and delivery. The pipeline includes:
-
-Linting and formatting
-Testing
-Deployment to production 
+    Copy
