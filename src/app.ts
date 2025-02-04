@@ -21,7 +21,7 @@ const allowedUrls =[""]
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin:"shorten-url-ui.vercel.app" ,
+    origin:"https://shorten-url-ui.vercel.app" ,
     credentials: true,
     methods:["POST", "GET" ,"OPTIONS"],
     allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With'],
