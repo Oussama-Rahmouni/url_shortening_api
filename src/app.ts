@@ -16,12 +16,11 @@ dotenv.config()
 const app = express()
 
 app.use(express.json());
-const allowedUrls =[""]
 
 // security middlewares
 app.use(helmet())
 app.use(cors({
-    origin:"https://shorten-url-ui.vercel.app" ,
+    origin:process.env.CLIENT_URL ,
     credentials: true,
     methods:["POST", "GET" ,"OPTIONS"],
     allowedHeaders:['Content-Type', 'Authorization', 'X-Requested-With'],
